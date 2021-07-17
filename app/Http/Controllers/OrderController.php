@@ -11,43 +11,47 @@ use Laravel\Lumen\Routing\Controller;
 
 class OrderController extends Controller
 {
-    public function updateStatus(Request $request, string $orderId): JsonResponse
+    public function updateStatus(Request $request, string $order_id): JsonResponse
     {
-        $this->validate($request, [
+        $status = $this->validate($request, [
             'occurred_at' => 'required|date',
             'status' => 'required|in:succeeded,failed',
             'reason ' => 'required|in:price_mismatched,pos_item_id_mismatched,items_out_of_stock,location_offline,location_not_supported,unsupported_order_type,other',
             'notes' => 'sometimes|string'
         ]);
-
-        $order = Order::find($orderId);
+        /** @var Order $order */
+        $order = Order::find($order_id);
         if ($order === null)
             abort(404);
 
-        return response()->json();
+        $order->order_sync_statuses[] = $status;
+        $order->save();
+
+        return response();
     }
 
-    public function updateStage(Request $request, string $orderId): JsonResponse
+    public function updateStage(Request $request, string $order_id): JsonResponse
     {
-        $this->validate($request, [
+        $stage = $this->validate($request, [
             'occurred_at' => 'required|date',
             'stage' => 'required|in:in_kitchen,ready_for_collection,collected'
         ]);
-
-        $order = Order::find($orderId);
+        /** @var Order $order */
+        $order = Order::find($order_id);
         if ($order === null)
             abort(404);
+        $order->order_prep_stages[] = $stage;
+        $order->save();
 
-        return response()->json();
+        return response();
     }
 
-    public function show(string $orderId): JsonResponse
+    public function show(string $order_id): JsonResponse
     {
-        $order = Order::find($orderId);
+        $order = Order::find($order_id);
         if ($order === null)
             abort(404);
 
         return response()->json($order);
-
     }
 }

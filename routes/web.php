@@ -16,3 +16,7 @@
 $router->get('/', function () use ($router) {
     return $router->app->version();
 });
+
+$router->get('/v1/orders/{order_id}', 'OrderController@show');
+$router->post('/v1/orders/{order_id}/prep_stage', 'OrderController@updateStage');
+$router->post('/v1/orders/{order_id}/sync_status', 'OrderController@updateStatus');
