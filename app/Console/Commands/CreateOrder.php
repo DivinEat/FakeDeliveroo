@@ -39,7 +39,7 @@ class CreateOrder extends Command
         /** @var Store $store */
         $store = Store::all()->first();
 
-        Order::create([
+        $order = Order::create([
             'order_id' => Str::uuid()->toString(),
             'created_at' => Carbon::now()->subMinutes(5),
             'order_events' => [
@@ -56,11 +56,12 @@ class CreateOrder extends Command
         $ch = curl_init();
         curl_setopt($ch, CURLOPT_URL, $store->webhook_deliveroo);
         curl_setopt($ch, CURLOPT_POST, 1);
-        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept' => 'application/json']);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Accept: application/json', 'Content-Type:application/json']);
+        curl_setopt( $ch, CURLOPT_POSTFIELDS, json_encode($order) );
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
         $output = curl_exec($ch);
         curl_close($ch);
-        dd($output);
+        echo $output;die;
     }
 
     protected function getOrderCreateEvent(): array
