@@ -3,6 +3,7 @@
 namespace App\Console\Commands;
 
 use App\Models\Order;
+use App\Models\Store;
 use Carbon\Carbon;
 use Illuminate\Console\Command;
 use Illuminate\Support\Str;
