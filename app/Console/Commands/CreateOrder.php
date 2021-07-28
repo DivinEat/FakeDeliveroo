@@ -64,7 +64,7 @@ class CreateOrder extends Command
 
     protected function getOrderCreateEvent(): string
     {
-        return json_encode([
+        return [
             "event" => "new_order",
             "location_id" => "72",
             "restaurant_acknowledged_at" => "2018-12-11T14 => 40 => 35Z",
@@ -305,6 +305,6 @@ class CreateOrder extends Command
                 ],
                 "pickup_at" => "2018-12-11T14 => 54 => 11Z"
             ]
-        ]);
+        ];
     }
 }
