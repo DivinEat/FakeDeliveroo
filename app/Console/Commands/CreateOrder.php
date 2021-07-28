@@ -35,6 +35,9 @@ class CreateOrder extends Command
 
     public function handle()
     {
+        /** @var Store $store */
+        $store = Store::all()->first();
+
         Order::create([
             'order_id' => Str::uuid()->toString(),
             'created_at' => Carbon::now()->subMinutes(5),
