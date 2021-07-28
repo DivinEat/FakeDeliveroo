@@ -62,7 +62,7 @@ class CreateOrder extends Command
         dd($output);
     }
 
-    protected function getOrderCreateEvent(): string
+    protected function getOrderCreateEvent(): array
     {
         return [
             "event" => "new_order",
