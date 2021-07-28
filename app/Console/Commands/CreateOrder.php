@@ -303,7 +303,7 @@ class CreateOrder extends Command
                         "currency_code" => "EUR"
                     ]
                 ],
-                "pickup_at" => "2018-12-11T14 => 54 => 11Z"
+                "pickup_at" => Carbon::now()->addMinutes(34)->toString()
             ]
         ];
     }
