@@ -48,6 +48,14 @@ class CreateOrder extends Command
             'order_sync_statuses' => [],
             'order_prep_stages' => []
         ]);
+
+        $ch = curl_init();
+        curl_setopt($ch, CURLOPT_URL, $store->webhook_deliveroo);
+        curl_setopt($ch, CURLOPT_POST, 1);
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
+        $output = curl_exec($ch);
+        curl_close($ch);
+        dd($output);
     }
 
     protected function getOrderCreateEvent(): string
